@@ -7,11 +7,13 @@
                     {% if message.lebel == DEFAULT_MESSAGE_LEVELS.ERROR %}
                         Error
                     {% else %}
-                        {{ message.tags | tittle }}
-                    {% enif %}
+                        {{ message.tags|title }}
+                    {% endif %}
                 </strong>
                 {{ message }}
             </div>
         </div>
     {% endfor %}
 {% endif %}
+
+<!-- 10:22 -->
