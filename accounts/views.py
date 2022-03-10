@@ -1,14 +1,19 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 
 def register(request):
     if request.method == 'POST':
-        print('SUBMITTED REG')
-        return redirect('register')
+        messages.error(request, 'Testing error message')
+        return  redirect('register')
     else:
         return render(request, 'accounts/register.html')
 
 def login(request):
-    return render(request, 'accounts/login.html')
+    if request.method == 'POST':
+        # Login User
+        return
+    else:
+        return render(request, 'accounts/login.html')
 
 def logout(request):
     return redirect('index')
@@ -16,4 +21,4 @@ def logout(request):
 def dashboard(request):
     return render(request, 'accounts/dashboard.html')    
 
-    #cap 8 ep 49 // 7:08
+    
