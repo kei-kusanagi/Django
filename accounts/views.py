@@ -63,4 +63,4 @@ def logout(request):
 def dashboard(request):
     return render(request, 'accounts/dashboard.html')    
 
-    
+# cap 8 3:31
