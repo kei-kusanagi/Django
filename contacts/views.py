@@ -1,6 +1,12 @@
+from cgitb import html
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAlternatives , EmailMessage
+
+from django.core import mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+
 from .models import Contact
 from decouple import config
 
@@ -27,13 +33,27 @@ def contact(request):
         contact.save()
 
         # Send email
-        send_mail(
-            'Property Listing Inquiry',
-            'There has been an inquirry for '+ listing + '. Sign into the admin panel for more info',
-            'config("TEST_EMAIL")',
-            [realtor_email, 'techguyinfo@gmail.com'],
-            fail_silently=False
-        )
+        
+        # body = ' There has been an inquirry for '+ listing + '. Sign into the admin panel for more info '+ login_admin
 
+        # send_mail(
+        #     'Property Listing Inquiry',
+        #     body,
+        #     'config("TEST_EMAIL")',
+        #     [realtor_email, 'techguyinfo@gmail.com'],
+        #     fail_silently=False
+        # )
+
+        # ------------------alternativa-----------------
+        subject, from_email, to = name + ' Inquirry for ' + listing, 'config("TEST_EMAIL")' , realtor_email
+        text_content = 'There has been an inquirry for '+ listing + '. Sign into the admin panel for more info ' + 'http://localhost:8000/admin/'
+        msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+        
+        msg.send()
+        
+        
+        
+        # Confirmacion de mensaje enviado
         messages.success(request, 'Your request has been submitted, a realtor will get back to you soon')
         return redirect('/listings/'+listing_id)
+
